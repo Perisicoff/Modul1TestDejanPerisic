@@ -1,15 +1,15 @@
 package com.ftninformatika.jwd.modul1.test.sportpass.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StavkaIzvestaja {
 
 	private String nazivPaketa = "";
-	private List<String> korisnici = new ArrayList<>();
+	private Set<String> korisnici = new HashSet<String>();
 	private String imeKorisnikaSaNajviseC = "";
 
-	public StavkaIzvestaja(String nazivPaketa, List<String> korisnici, String imeKorisnikaSaNajviseC) {
+	public StavkaIzvestaja(String nazivPaketa, Set<String> korisnici, String imeKorisnikaSaNajviseC) {
 		super();
 		this.nazivPaketa = nazivPaketa;
 		this.korisnici = korisnici;
@@ -31,7 +31,7 @@ public class StavkaIzvestaja {
 		return nazivPaketa;
 	}
 
-	public List<String> getKorisnici() {
+	public Set<String> getKorisnici() {
 		return korisnici;
 	}
 

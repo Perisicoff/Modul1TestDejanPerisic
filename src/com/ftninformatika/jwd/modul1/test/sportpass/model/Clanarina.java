@@ -33,8 +33,8 @@ public class Clanarina {
 		this.datumPocetka = datumPocetka;
 	}
 	
-	public boolean isDatumUOpsegu(LocalDateTime pocetni, LocalDateTime krajnji) {
-		return datumPocetka.compareTo(pocetni) >= 0 && datumPocetka.compareTo(krajnji) <= 0;
+	public boolean isDatumUOpseguAktivneClanarine(LocalDateTime pocetni, LocalDateTime krajnji) {
+		return (datumPocetka.compareTo(pocetni) >= 0 || istekClanarine().compareTo(pocetni) > 0) && datumPocetka.compareTo(krajnji) < 0;
 
 	}
 	
