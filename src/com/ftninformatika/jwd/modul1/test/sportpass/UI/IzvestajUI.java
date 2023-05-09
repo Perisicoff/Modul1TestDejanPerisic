@@ -26,42 +26,33 @@ public class IzvestajUI {
 		LocalDateTime krajnjiDatum = Konzola.ocitajDateTime("Unesite krajnji datum pretrage: ");
 
 		try {
-			List<String> naziviPaketa = new ArrayList<>();
 			Set<String> sviKorisnici = new LinkedHashSet<>();
-
 			Collection<Paket> paketi = paketDAO.getAll();
 			for (Paket paket : paketi) {
-				naziviPaketa.add(paket.getNaziv());
 				for (Clanarina clanarina : paket.getClanarine()) {
 					sviKorisnici.add(clanarina.getImeKorisnika());
 				}
 			}
 
 			List<StavkaIzvestaja> stavke = new ArrayList<>();
-			for (String nazivPaketa : naziviPaketa) {
-				Set<String> korisniciPaketa = new LinkedHashSet<>();
+			for (Paket paket : paketi) {
+				List<String> korisniciPaketa = new ArrayList<>();
 				String korisinikSaNajviseClanarina = "";
 				int brojClanarina = Integer.MIN_VALUE;
-				for (Paket paket : paketi) {
-					if (nazivPaketa.equals(paket.getNaziv())) {
-						for (String korisnik : sviKorisnici) {
-							int brojac = 0;
-							for (Clanarina clanarina : paket.getClanarine()) {
-								if (clanarina.isDatumUOpseguAktivneClanarine(pocetniDatum, krajnjiDatum)) {
-									korisniciPaketa.add(clanarina.getImeKorisnika());
-									if (korisnik.equals(clanarina.getImeKorisnika())) {
-										brojac++;
-									}
-									if (brojac > brojClanarina) {
-										brojClanarina = brojac;
-										korisinikSaNajviseClanarina = clanarina.getImeKorisnika();
-									}
-								}
-							}
+				for (String korisnik : sviKorisnici) {
+					int brojac = 0;
+					for (Clanarina clanarina : paket.getClanarine()) {
+						if (clanarina.isDatumUOpseguAktivneClanarine(pocetniDatum, krajnjiDatum) && korisnik.equals(clanarina.getImeKorisnika())) {
+							korisniciPaketa.add(clanarina.getImeKorisnika());
+							brojac++;
+						}
+						if (brojac > brojClanarina) {
+							brojClanarina = brojac;
+							korisinikSaNajviseClanarina = clanarina.getImeKorisnika();
 						}
 					}
 				}
-				StavkaIzvestaja stavka = new StavkaIzvestaja(nazivPaketa, korisniciPaketa, korisinikSaNajviseClanarina);
+				StavkaIzvestaja stavka = new StavkaIzvestaja(paket.getNaziv(), korisniciPaketa, korisinikSaNajviseClanarina);
 				stavke.add(stavka);
 			}
 			stavke.sort(StavkaIzvestaja::compareBrojPrijava);
